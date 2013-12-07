@@ -2,7 +2,7 @@ CXX=g++
 RE2C=re2c
 CXXFLAGS=-g -Wall
 
-OBJS=main.o Token.o
+OBJS=main.o Token.o TokenArray.o
 
 ssc: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)

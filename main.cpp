@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "Token.h"
 
-
 int main(int argc, char *argv[]) {
     
     SSC::Token token(T_LNUMBER, "23", "test", 0);

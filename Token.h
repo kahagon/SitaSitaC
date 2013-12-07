@@ -1,10 +1,10 @@
-
-
 #include <string>
+
 #ifndef TOKEN_H
 #define TOKEN_H
 
 #define T_LNUMBER 1
+#define T_VARIABLE 2
 
 namespace SSC {
 
