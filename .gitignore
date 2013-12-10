@@ -1,3 +1,7 @@
 ssc
 *.swp
 *.o
+
+lexer.c
+parser.c
+parser.h
