@@ -6,8 +6,9 @@
 #include "compile.h"
 #include "node.h"
 #include "Lexer.hpp"
+#include "Node.hpp"
 
-#define YYSTYPE node
+#define YYSTYPE Node
 %}
 
 %parse-param { Lexer* lexer }

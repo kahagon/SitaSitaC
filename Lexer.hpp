@@ -1,7 +1,8 @@
 #include <string>
+#include "Node.hpp"
 
-#ifndef LEXER_H
-#define LEXER_H
+#ifndef SSC_LEXER_HPP
+#define SSC_LEXER_HPP
 
 #define YYCTYPE unsigned char
 #define YYCURSOR yycursor
@@ -28,4 +29,4 @@ class Lexer {
 
 int SSClex(Node* node, SSC::Lexer* lexer);
 
-#endif /* LEXER_H */
+#endif /* SSC_LEXER_HPP */
