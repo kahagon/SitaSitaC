@@ -6,6 +6,8 @@ lexer.c
 parser.c
 parser.h
 
+Lexer.cpp
+
 Parser.cpp
 Parser.hpp
 stack.hh

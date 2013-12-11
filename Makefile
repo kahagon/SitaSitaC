@@ -26,9 +26,14 @@ Parser.cpp: Parser.ypp
 lexer.c: lexer.l parser.c
 	$(RE2C) -F -o $@ $<
 
+Lexer.cpp: Lexer.lpp Parser.cpp
+	$(RE2C) -F -o $@ $<
+
 
 clean:
 	rm -f ssc \
         parser.c parser.h \
         Parser.cpp Parser.hpp stack.hh position.hh location.hh \
-        lexer.c *.o
+        lexer.c \
+        Lexer.cpp \
+        *.o 
