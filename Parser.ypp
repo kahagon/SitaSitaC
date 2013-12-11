@@ -10,8 +10,8 @@
 #define YYSTYPE node
 %}
 
-%parse-param { Lexer& lexer }
-%lex-param { Lexer& lexer }
+%parse-param { Lexer* lexer }
+%lex-param { Lexer* lexer }
 
 %pure_parser
  
