@@ -1,15 +1,24 @@
+#include <cstring>
+#include <cstdio>
 #include "Lexer.hpp"
+#include "Parser.hpp"
 
-SSC::Lexer() {}
+namespace SSC {
 
-SSC::~Lexer() {}
-
-SSC::Lexer::prepare(unsigned char* source, unsigned int lenght) {
+void Lexer::prepare(unsigned char* source, unsigned int length) {
     yycursor = source;
     yylimit = source + length;
 }
 
-SSC::Lexer::scan(Node* node) {
+unsigned char* Lexer::tokenDuplicate(const unsigned char* start, const unsigned char* end) {
+    size_t bufferSize = end - start + 1;
+    YYCTYPE* buffer = (unsigned char*)malloc(bufferSize);
+    memmove(buffer, start, bufferSize-1);
+    buffer[bufferSize] = '\0';
+    return buffer;
+}
+
+int Lexer::scan(Node* node) {
 
     YYCTYPE* start_point = yycursor;
 /*!re2c
@@ -25,18 +34,18 @@ SSC::Lexer::scan(Node* node) {
 
     "$"{LABEL} {
         printf("VARIABLE\n");
-        YYCTYPE* token_string = token_duplicate(start_point, yycursor);
-        e->entity = token_string;
-        printf("T_VARIABLE(%s)\n", e->entity);
-        return T_VARIABLE;
+        YYCTYPE* token_string = tokenDuplicate(start_point, yycursor);
+        node->entity = token_string;
+        printf("T_VARIABLE(%s)\n", node->entity);
+        return Parser::token::T_VARIABLE;
     }
 
     {LNUM} {
         printf("INT\n");
-        YYCTYPE* token_string = token_duplicate(start_point, yycursor);
-        e->entity = token_string;
-        printf("T_LNUMBER(%s)\n", e->entity);
-        return T_LNUMBER;
+        YYCTYPE* token_string = tokenDuplicate(start_point, yycursor);
+        node->entity = token_string;
+        printf("T_LNUMBER(%s)\n", node->entity);
+        return Parser::token::T_LNUMBER;
     }
 
     {TOKENS} {
@@ -45,25 +54,26 @@ SSC::Lexer::scan(Node* node) {
 
     {WHITESPACE} {
         printf("WHITESPACE\n");
-        YYCTYPE* token_string = token_duplicate(start_point, yycursor);
-        e->entity = token_string;
-        printf("T_WHITESPACE(%s)\n", e->entity);
-        return T_WHITESPACE;
+        YYCTYPE* token_string = tokenDuplicate(start_point, yycursor);
+        node->entity = token_string;
+        printf("T_WHITESPACE(%s)\n", node->entity);
+        return Parser::token::T_WHITESPACE;
     }
 
-    "\000"      { printf("EOF\n");  return END; }
+    "\000"      { printf("EOF\n");  return Parser::token::END; }
     [^]         { printf("ERR\n");  return 1; }
 
 */
 
 }
 
+} /* namespace SSC */
 
-int SSClex(Node* node, SSC::Lexer* lexer) {
+int SSClex(SSC::Node* node, SSC::Lexer* lexer) {
     int result;
     do {
-         result = lexer->scan(e);
-    }while (T_WHITESPACE==result);
+         result = lexer->scan(node);
+    }while (SSC::Parser::token::T_WHITESPACE==result);
 
     return result;
 }

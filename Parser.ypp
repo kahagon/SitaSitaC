@@ -2,11 +2,18 @@
 %name-prefix "SSC"
 %define "parser_class_name" "Parser"
 
+%defines
 %{
-#include "compile.h"
-#include "node.h"
+#include <string>
+#include <cstdio>
 #include "Lexer.hpp"
 #include "Node.hpp"
+
+/*
+using namespace SSC;
+class Lexer;
+int SSClex(Node* node, Lexer* lexer);
+*/
 
 #define YYSTYPE Node
 %}
@@ -33,7 +40,7 @@ expr:
                 $$.entity, $$.value, 
                 $1.entity, $1.value, 
                 $3.entity, $3.value); 
-            node_do_assign(&$$, &$1, &$3); /* do assign */ 
+            /* do assign */ 
             printf("$$.entity:%s, $$.value:%s\n"
                 "$1.entity:%s, $1.value:%s\n"
                 "$3.entity:%s, $3.value:%s\n", 
@@ -59,3 +66,7 @@ common_scalar:
 ;
 
 %%
+
+void SSC::Parser::error(const SSC::Parser::location_type&, const std::string& m) {
+    printf("parse error occurred.\n%s\n", m.c_str());
+}

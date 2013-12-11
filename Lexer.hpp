@@ -1,4 +1,5 @@
 #include <string>
+#include <cstdlib>
 #include "Node.hpp"
 
 #ifndef SSC_LEXER_HPP
@@ -15,10 +16,11 @@ namespace SSC {
 
 class Lexer {
     public:
-        Lexer();
-        ~Lexer();
+        /* use default constructor */
+        /* use default destructor */
         void prepare(unsigned char* source, unsigned int length);
         int scan(Node* node);
+        unsigned char* tokenDuplicate(const unsigned char* start, const unsigned char* end);
     private:
         unsigned char* yycursor;
         unsigned char* yylimit;
@@ -27,6 +29,6 @@ class Lexer {
 
 }; /* namespace SSC */
 
-int SSClex(Node* node, SSC::Lexer* lexer);
+int SSClex(SSC::Node* node, SSC::Lexer* lexer);
 
 #endif /* SSC_LEXER_HPP */
