@@ -21,7 +21,7 @@ parser.c: parser.y
 	$(YACC) -d $< -o $@
 
 Parser.cpp: Parser.ypp
-	$(YACC) -d $,  -o $@ --skeleton=lalr1.cc
+	$(YACC) -d $< -o $@ --skeleton=lalr1.cc
 
 lexer.c: lexer.l parser.c
 	$(RE2C) -F -o $@ $<
