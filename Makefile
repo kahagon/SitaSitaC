@@ -6,16 +6,14 @@ RE2C=re2c
 CFLAGS=-g -Wall
 CXXFLAGS=-g -Wall
 
-OBJS=parser.o lexer.o node.o main.o
-
-.c.o:
-	$(CC) -c $(CFLAGS) -o $@ $<
+#OBJS=parser.o lexer.o node.o main.o
+OBJS=Parser.o Lexer.o Node.o Main.o
 
 .cpp.o:
 	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
 ssc: $(OBJS)
-	gcc $(CFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
 parser.c: parser.y
 	$(YACC) -d $< -o $@
