@@ -1,0 +1,69 @@
+#include "Lexer.hpp"
+
+SSC::Lexer() {}
+
+SSC::~Lexer() {}
+
+SSC::Lexer::prepare(unsigned char* source, unsigned int lenght) {
+    yycursor = source;
+    yylimit = source + length;
+}
+
+SSC::Lexer::scan(Node* node) {
+
+    YYCTYPE* start_point = yycursor;
+/*!re2c
+    re2c:indent:top = 2;
+    re2c:indent:string = "    ";
+    
+    DIGIT = [0-9];
+    LNUM = [0-9]+;
+    INT = "0" | ( [1-9] DIGIT* );
+    LABEL = [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*;
+    WHITESPACE = [ \n\r\t]+;
+    TOKENS = [;:,.\[\]()|^&+-/*=%!~$<>?@];
+
+    "$"{LABEL} {
+        printf("VARIABLE\n");
+        YYCTYPE* token_string = token_duplicate(start_point, yycursor);
+        e->entity = token_string;
+        printf("T_VARIABLE(%s)\n", e->entity);
+        return T_VARIABLE;
+    }
+
+    {LNUM} {
+        printf("INT\n");
+        YYCTYPE* token_string = token_duplicate(start_point, yycursor);
+        e->entity = token_string;
+        printf("T_LNUMBER(%s)\n", e->entity);
+        return T_LNUMBER;
+    }
+
+    {TOKENS} {
+        return start_point[0];
+    }
+
+    {WHITESPACE} {
+        printf("WHITESPACE\n");
+        YYCTYPE* token_string = token_duplicate(start_point, yycursor);
+        e->entity = token_string;
+        printf("T_WHITESPACE(%s)\n", e->entity);
+        return T_WHITESPACE;
+    }
+
+    "\000"      { printf("EOF\n");  return END; }
+    [^]         { printf("ERR\n");  return 1; }
+
+*/
+
+}
+
+
+int SSClex(Node* node, SSC::Lexer* lexer) {
+    int result;
+    do {
+         result = lexer->scan(e);
+    }while (T_WHITESPACE==result);
+
+    return result;
+}
